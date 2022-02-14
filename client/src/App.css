@@ -1,0 +1,88 @@
+/* CSS Font Import */
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500&display=swap");
+/* Navbar Styling */
+.nav-bar {
+    background-color: #333;
+    overflow: hidden;
+}
+
+.nav-bar a {
+    float: left;
+    color: #f2f2f2;
+    padding: 1% 1.5%;
+    font-size: 100%;
+    text-align: center;
+    text-decoration: none;
+    transition: 1s;
+}
+
+.nav-bar a:hover {
+    background-color: #274690;
+}
+
+.nav-bar a.active {
+    background-color: #213066;
+}
+
+/* Display Videos Styling */
+.task-list {
+    margin: 1rem;
+    padding: 1rem;
+    border: 1px solid red;
+}
+
+.task {
+    border: 1px solid blue;
+}
+
+.task .title {
+    font-weight: bold;
+}
+
+/* Create Video Styling */
+.form-control {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    max-width: 500px;
+    margin: 2rem auto;
+    border: 2px solid red;
+    padding: 2rem;
+    border-radius: 1.1rem;
+}
+
+.form-control label {
+    padding: 1rem 0 0.5rem;
+    display: block;
+}
+
+.form-control button,
+input {
+    display: block;
+    width: 100%;
+}
+
+.form-control input {
+    border: 2px solid brown;
+    padding: 0.25rem;
+    font-size: 1.25rem;
+    border-radius: 0.5rem;
+}
+
+#create-btn {
+    font-family: "Montserrat", sans-serif;
+    width: 20%;
+    font-weight: 500;
+    font-size: 1rem;
+    border: 0;
+    background-color: rgb(70, 70, 238);
+    padding: 0.5rem;
+    color: white;
+    margin: 1rem 0;
+    cursor: pointer;
+    border-radius: 0.5rem;
+}
+
+.create-btn:hover {
+    background-color: black;
+}

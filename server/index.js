@@ -1,6 +1,7 @@
 const express = require("express");
 const pool = require("./db");
 const cors = require("cors");
+const ytdl = require("ytdl-core");
 
 const app = express();
 const port = 5000;
@@ -10,17 +11,17 @@ app.use(express.json());
 
 // [GET Requests]
 // 1. Returns all videos
-app.get("/video", async (req, res) => {
+app.get("/videos", async (req, res) => {
     try {
-        const allQuestions = await pool.query("SELECT * FROM videos");
-        res.json(allQuestions.rows);
+        const allVideos = await pool.query("SELECT * FROM videos");
+        res.json(allVideos.rows);
     } catch (err) {
         console.error(err.message);
     }
 });
 
 // 2. Gets a specific video
-app.get("/video/:id", async (req, res) => {
+app.get("/videos/:id", async (req, res) => {
     try {
         const { id } = req.params;
 
@@ -39,7 +40,7 @@ app.get("/timestamp/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const videoData = await pool.query(
-            "SELECT * FROM video_data WHERE id = $1",
+            "SELECT * FROM videos_data WHERE id = $1",
             [id]
         );
         res.json(videoData.rows[0]);
@@ -49,14 +50,13 @@ app.get("/timestamp/:id", async (req, res) => {
 });
 
 // 3. Get all timestamps from video id
-app.get("/timestamp/video/:id", async (req, res) => {
+app.get("/timestamp/videos/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const videoData = await pool.query(
-            "SELECT * FROM video_data WHERE video_id = $1",
+            "SELECT * FROM videos_data WHERE video_id = $1",
             [id]
         );
-        console.log("here");
         res.json(videoData.rows);
     } catch (err) {
         console.error(err.message);
@@ -65,12 +65,19 @@ app.get("/timestamp/video/:id", async (req, res) => {
 
 // [POST Requests]
 // 1. Create a video
-app.post("/video", async (req, res) => {
+app.post("/videos", async (req, res) => {
     try {
-        const { vidLink } = req.body;
+        const { videoLink, videoTitle } = req.body;
+        let finalVideoTitle = videoTitle;
+
+        if (videoTitle === "") {
+            const vidMetaData = await ytdl.getBasicInfo(videoLink);
+            finalVideoTitle = vidMetaData.videoDetails.title;
+        }
+
         const newVideo = await pool.query(
-            "INSERT INTO videos(video_link) VALUES($1) RETURNING *",
-            [vidLink]
+            "INSERT INTO videos(video_link, video_title) VALUES($1, $2) RETURNING *",
+            [videoLink, finalVideoTitle]
         );
 
         res.json(newVideo.rows[0]);
@@ -80,12 +87,12 @@ app.post("/video", async (req, res) => {
 });
 
 // 2. Create a timestamp
-app.post("/video/:id", async (req, res) => {
+app.post("/videos/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const { timestamp, description } = req.body;
         const newTimeStamp = await pool.query(
-            "INSERT INTO video_data(timestamp, description, video_id) VALUES($1, $2, $3) RETURNING *",
+            "INSERT INTO videos_data(timestamp, description, video_id) VALUES($1, $2, $3) RETURNING *",
             [timestamp, description, id]
         );
         res.json(newTimeStamp.rows);
@@ -95,15 +102,16 @@ app.post("/video/:id", async (req, res) => {
 });
 
 // [PUT Requests]
-// Change a video's video_link
-app.put("/video/:id", async (req, res) => {
+// Change a video
+app.put("/videos/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const { video_link } = req.body;
+        const { videoLink } = req.body;
+        const vidMetaData = await ytdl.getBasicInfo(videoLink);
 
         const updatedVideo = await pool.query(
-            "UPDATE videos SET video_link = $1 WHERE id = $2",
-            [video_link, id]
+            "UPDATE videos SET video_link = $1, video_title = $2 WHERE id = $3",
+            [videoLink, vidMetaData.videoDetails.title, id]
         );
 
         res.json("Video Updated");
@@ -119,7 +127,7 @@ app.put("/timestamp/:id", async (req, res) => {
         const { timestamp, description } = req.body;
 
         const updatedTimestamp = await pool.query(
-            "UPDATE video_data SET timestamp = $1, description = $2 WHERE id = $3",
+            "UPDATE videos_data SET timestamp = $1, description = $2 WHERE id = $3",
             [timestamp, description, id]
         );
 
@@ -131,11 +139,11 @@ app.put("/timestamp/:id", async (req, res) => {
 
 // [DELETE Requests]
 // Delete a video
-app.delete("/video/:id", async (req, res) => {
+app.delete("/videos/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const deleteVideoData = await pool.query(
-            "DELETE FROM video_data WHERE video_id = $1",
+        const deleteVideo = await pool.query(
+            "DELETE FROM videos_data WHERE video_id = $1",
             [id]
         );
         const deleteVideos = await pool.query(
@@ -153,7 +161,7 @@ app.delete("/timestamp/:id", async (req, res) => {
     try {
         const { id } = req.params;
         const deleteTimestamp = await pool.query(
-            "DELETE FROM video_data WHERE id = $1",
+            "DELETE FROM videos_data WHERE id = $1",
             [id]
         );
         res.json("Timestamp Deleted");
