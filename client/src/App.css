@@ -32,11 +32,53 @@
 }
 
 .task {
-    border: 1px solid blue;
+    display: flex;
+    justify-content: space-between;
+    border: 0.25vh solid blue;
+    margin-top: 1rem;
 }
 
 .task .title {
     font-weight: bold;
+}
+
+.btn-delete {
+    /* Text */
+    font-size: 1vw;
+    color: white;
+
+    /* Coloring */
+    background-color: #c03737;
+    border: 2px solid #c03737;
+    border-radius: 10px;
+}
+
+.btn-delete:hover {
+    background-color: #a52c2c;
+    border: 2px solid #a52c2c;
+    border-radius: 10px;
+}
+
+.btn-edit {
+    /* Text */
+    font-size: 1vw;
+    color: white;
+
+    /* Coloring */
+    background-color: #aa17c7;
+    border: 2px solid #aa17c7;
+    border-radius: 10px;
+}
+
+.btn-edit:hover {
+    background-color: #9316ac;
+    border: 2px solid #9316ac;
+    border-radius: 10px;
+}
+
+.buttons {
+    display: flex;
+    align-items: center;
 }
 
 /* Create Video Styling */
