@@ -86,3 +86,9 @@ input {
 .create-btn:hover {
     background-color: black;
 }
+
+.warning-text {
+    color: rgb(255, 58, 58);
+    margin-top: 0.5rem;
+    font-size: 1vw;
+}

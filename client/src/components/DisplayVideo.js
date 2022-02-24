@@ -17,7 +17,7 @@ const DisplayVideo = () => {
         <Fragment>
             <div className="task-list">
                 {videos.map((video) => (
-                    <div className="task">
+                    <div key={video.id} className="task">
                         <div className="title">{video.video_title}</div>
                         Link : {video.video_link}
                     </div>
