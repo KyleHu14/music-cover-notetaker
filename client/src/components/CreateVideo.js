@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
-const CreateVideo = () => {
+const CreateVideo = ({ editVideo, setEditVideo }) => {
     const [videoTitle, setVideoTitle] = useState("");
-    const [videoLink, setvideoLink] = useState("");
+    const [videoLink, setVideoLink] = useState("");
     const [formErrors, setFormErrors] = useState({});
 
     const onSubmitForm = async (e) => {
@@ -10,21 +10,31 @@ const CreateVideo = () => {
         setFormErrors(validate(videoLink));
 
         if (Object.keys(formErrors).length === 0) {
-            try {
-                const body = { videoTitle, videoLink };
-                const res = await fetch("http://localhost:5000/videos", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(body),
-                });
+            if (Object.keys(editVideo).length === 0) {
+                try {
+                    const body = { videoTitle, videoLink };
+                    const res = await fetch("http://localhost:5000/videos", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(body),
+                    });
 
-                setVideoTitle("");
-                setvideoLink("");
-            } catch (error) {
-                console.error(error);
+                    setVideoTitle("");
+                    setVideoLink("");
+                } catch (error) {
+                    console.error(error);
+                }
+            } else {
             }
         }
     };
+
+    useEffect(() => {
+        if (Object.keys(editVideo).length !== 0) {
+            setVideoTitle(editVideo.originalTitle);
+            setVideoLink(editVideo.originalLink);
+        }
+    }, [editVideo]);
 
     const validate = (videoLink) => {
         const errors = {};
@@ -47,7 +57,7 @@ const CreateVideo = () => {
                 id="video-link"
                 placeholder="https://www.youtube.com/watch?v=OyMdmzfp2Jo"
                 value={videoLink}
-                onChange={(e) => setvideoLink(e.target.value)}
+                onChange={(e) => setVideoLink(e.target.value)}
             />
             <div className="warning-text">{formErrors.videoLink}</div>
             <label htmlFor="video-title">Title</label>

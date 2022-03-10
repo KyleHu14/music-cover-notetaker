@@ -1,6 +1,6 @@
 import { Fragment, useState, useEffect } from "react";
 
-const DisplayVideo = () => {
+const DisplayVideo = ({ editVideo, setEditVideo }) => {
     const [videos, setVideos] = useState([]);
 
     async function getVideos() {
@@ -9,7 +9,7 @@ const DisplayVideo = () => {
         setVideos(videoArr);
     }
 
-    async function delVideo(id) {
+    async function handleDelete(id) {
         try {
             const res = await fetch(`http://localhost:5000/videos/${id}`, {
                 method: "DELETE",
@@ -19,15 +19,23 @@ const DisplayVideo = () => {
         }
     }
 
+    const handleEdit = ({ id, videoTitle, videoLink }) => {
+        setEditVideo({
+            id,
+            originalTitle: videoTitle,
+            originalLink: videoLink,
+        });
+    };
+
     useEffect(() => {
         getVideos();
     });
 
     return (
         <Fragment>
-            <div className="task-list">
+            <div className="video-list">
                 {videos.map((video) => (
-                    <div key={video.id} className="task">
+                    <div key={video.id} className="video">
                         <div className="text">
                             <div className="title">{video.video_title}</div>
                             Link : {video.video_link}
@@ -35,11 +43,22 @@ const DisplayVideo = () => {
                         <div className="buttons">
                             <button
                                 className="btn-delete"
-                                onClick={() => delVideo(video.id)}
+                                onClick={() => handleDelete(video.id)}
                             >
                                 Delete
                             </button>
-                            <button className="btn-edit">Edit</button>
+                            <button
+                                className="btn-edit"
+                                onClick={() =>
+                                    handleEdit({
+                                        id: video.id,
+                                        videoTitle: video.video_title,
+                                        videoLink: video.video_link,
+                                    })
+                                }
+                            >
+                                Edit
+                            </button>
                         </div>
                     </div>
                 ))}

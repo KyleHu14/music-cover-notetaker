@@ -25,20 +25,20 @@
 }
 
 /* Display Videos Styling */
-.task-list {
+.video-list {
     margin: 1rem;
     padding: 1rem;
     border: 1px solid red;
 }
 
-.task {
+.video {
     display: flex;
     justify-content: space-between;
     border: 0.25vh solid blue;
     margin-top: 1rem;
 }
 
-.task .title {
+.video .title {
     font-weight: bold;
 }
 

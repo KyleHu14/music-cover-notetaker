@@ -1,16 +1,18 @@
 import "./App.css";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
 // Components
 import Navbar from "./components/Navbar";
 import DisplayVideo from "./components/DisplayVideo";
 import CreateVideo from "./components/CreateVideo";
 
 function App() {
+    const [editVideo, setEditVideo] = useState({});
+
     return (
         <Fragment>
             <Navbar />
-            <CreateVideo />
-            <DisplayVideo />
+            <CreateVideo editVideo={editVideo} setEditVideo={setEditVideo} />
+            <DisplayVideo editVideo={editVideo} setEditVideo={setEditVideo} />
         </Fragment>
     );
 }
