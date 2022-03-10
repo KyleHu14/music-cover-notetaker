@@ -4,6 +4,7 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
     const [videoTitle, setVideoTitle] = useState("");
     const [videoLink, setVideoLink] = useState("");
     const [formErrors, setFormErrors] = useState({});
+    const [formButtonText, setFormButtonText] = useState("");
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
@@ -25,6 +26,24 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
                     console.error(error);
                 }
             } else {
+                try {
+                    const body = { videoTitle, videoLink };
+                    console.log(editVideo.id);
+                    const res = await fetch(
+                        `http://localhost:5000/videos/${editVideo.id}`,
+                        {
+                            method: "PUT",
+                            headers: { "Content-Type": "application/json" },
+                            body: JSON.stringify(body),
+                        }
+                    );
+
+                    setVideoTitle("");
+                    setVideoLink("");
+                    setFormButtonText("Create");
+                } catch (error) {
+                    console.error(error);
+                }
             }
         }
     };
@@ -33,6 +52,9 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
         if (Object.keys(editVideo).length !== 0) {
             setVideoTitle(editVideo.originalTitle);
             setVideoLink(editVideo.originalLink);
+            setFormButtonText("Edit");
+        } else {
+            setFormButtonText("Create");
         }
     }, [editVideo]);
 
@@ -69,7 +91,7 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
                 onChange={(e) => setVideoTitle(e.target.value)}
             />
             <button id="create-btn" type="submit">
-                Create
+                {formButtonText}
             </button>
         </form>
     );

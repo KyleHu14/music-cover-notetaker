@@ -106,12 +106,11 @@ app.post("/videos/:id", async (req, res) => {
 app.put("/videos/:id", async (req, res) => {
     try {
         const { id } = req.params;
-        const { videoLink } = req.body;
-        const vidMetaData = await ytdl.getBasicInfo(videoLink);
+        const { videoLink, videoTitle } = req.body;
 
         const updatedVideo = await pool.query(
             "UPDATE videos SET video_link = $1, video_title = $2 WHERE id = $3",
-            [videoLink, vidMetaData.videoDetails.title, id]
+            [videoLink, videoTitle, id]
         );
 
         res.json("Video Updated");
