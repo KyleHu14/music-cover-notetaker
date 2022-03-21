@@ -1,11 +1,17 @@
 import { useState, useEffect } from "react";
 
 const CreateVideo = ({ editVideo, setEditVideo }) => {
+    // variables that store a video object to be created
     const [videoTitle, setVideoTitle] = useState("");
     const [videoLink, setVideoLink] = useState("");
+    // a variable that stores any errors in a form
     const [formErrors, setFormErrors] = useState({});
+    // this text is the text used in the form and switches between edit / create
     const [formButtonText, setFormButtonText] = useState("");
 
+    // 1. Checks for any errors in the form
+    // 2. If there are 0 form errors -> create a new video object thru the REST api
+    // 3. Else -> edit an existing video thru the REST api
     const onSubmitForm = async (e) => {
         e.preventDefault();
         setFormErrors(validate(videoLink));
@@ -48,6 +54,9 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
         }
     };
 
+    // If editVideo is not empty, change the form to include the currently edited video's info
+    // Change the button to edit
+    // Otherwise, change it to create
     useEffect(() => {
         if (Object.keys(editVideo).length !== 0) {
             setVideoTitle(editVideo.originalTitle);
@@ -58,6 +67,8 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
         }
     }, [editVideo]);
 
+    // validates if a youtube link is correct with Regex
+    // if youtube link is not valid, return an error object
     const validate = (videoLink) => {
         const errors = {};
         const youtubeRegex =
