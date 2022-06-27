@@ -76,6 +76,23 @@
     border-radius: 10px;
 }
 
+.btn-view {
+    /* Text */
+    font-size: 1vw;
+    color: white;
+
+    /* Coloring */
+    background-color: #05ad6a;
+    border: 2px solid #05ad6a;
+    border-radius: 10px;
+}
+
+.btn-view:hover {
+    background-color: #06995e;
+    border: 2px solid #06995e;
+    border-radius: 10px;
+}
+
 .buttons {
     display: flex;
     align-items: center;
@@ -133,4 +150,15 @@ input {
     color: rgb(255, 58, 58);
     margin-top: 0.5rem;
     font-size: 1vw;
+}
+
+.video-view {
+    text-align: center;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.4rem;
+    font-weight: 500;
+    max-width: 80%;
+    margin: 2rem auto;
+    border: 2px solid red;
+    padding: 2rem;
 }

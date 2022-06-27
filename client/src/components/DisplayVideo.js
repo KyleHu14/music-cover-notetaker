@@ -1,22 +1,26 @@
 import { Fragment, useState, useEffect } from "react";
 
-const DisplayVideo = ({ editVideo, setEditVideo }) => {
+const DisplayVideo = ({ editVideo, setEditVideo, setViewVideo }) => {
     // videos saves all the current videos of the PostgreSQL database in an array
     const [videos, setVideos] = useState([]);
 
     // sends a request to the REST Api to get the videos and update videos variable
     async function getVideos() {
-        const res = await fetch("http://localhost:5000/videos");
-        const videoArr = await res.json();
-        setVideos(videoArr);
+        try {
+            const res = await fetch("http://localhost:5000/videos");
+            const videoArr = await res.json();
+            setVideos(videoArr);
+        } catch (error) {
+            console.error(error);
+        }
     }
-
     // sends a request to the REST Api to delete the video with the id
     async function handleDelete(id) {
         try {
             const res = await fetch(`http://localhost:5000/videos/${id}`, {
                 method: "DELETE",
             });
+            setViewVideo({});
         } catch (error) {
             console.error(error.message);
         }
@@ -28,6 +32,17 @@ const DisplayVideo = ({ editVideo, setEditVideo }) => {
             id,
             originalTitle: videoTitle,
             originalLink: videoLink,
+        });
+    };
+
+    // changes the viewVideoId varaible
+    const handleView = ({ id, videoTitle, videoLink }) => {
+        setViewVideo({
+            id,
+            video_title: videoTitle,
+            embed_link:
+                "https://www.youtube.com/embed/" +
+                videoLink.split("watch?v=")[1].split("&t=")[0],
         });
     };
 
@@ -47,6 +62,18 @@ const DisplayVideo = ({ editVideo, setEditVideo }) => {
                             Link : {video.video_link}
                         </div>
                         <div className="buttons">
+                            <button
+                                className="btn-view"
+                                onClick={() =>
+                                    handleView({
+                                        id: video.id,
+                                        videoTitle: video.video_title,
+                                        videoLink: video.video_link,
+                                    })
+                                }
+                            >
+                                View
+                            </button>
                             <button
                                 className="btn-delete"
                                 onClick={() => handleDelete(video.id)}

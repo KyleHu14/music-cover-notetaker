@@ -53,7 +53,7 @@ app.get("/timestamp/:id", async (req, res) => {
     }
 });
 
-// 3. Get all timestamps from video id
+// 4. Get all timestamps from video id
 app.get("/timestamp/videos/:id", async (req, res) => {
     try {
         // 1. Getting video id from URL segments

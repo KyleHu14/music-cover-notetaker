@@ -34,7 +34,6 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
             } else {
                 try {
                     const body = { videoTitle, videoLink };
-                    console.log(editVideo.id);
                     const res = await fetch(
                         `http://localhost:5000/videos/${editVideo.id}`,
                         {
@@ -47,6 +46,7 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
                     setVideoTitle("");
                     setVideoLink("");
                     setFormButtonText("Create");
+                    setEditVideo({});
                 } catch (error) {
                     console.error(error);
                 }
