@@ -40,9 +40,7 @@ const DisplayVideo = ({ editVideo, setEditVideo, setViewVideo }) => {
         setViewVideo({
             id,
             video_title: videoTitle,
-            embed_link:
-                "https://www.youtube.com/embed/" +
-                videoLink.split("watch?v=")[1].split("&t=")[0],
+            embed_id: videoLink.split("watch?v=")[1].split("&t=")[0],
         });
     };
 
