@@ -1,4 +1,6 @@
-import "./App.css";
+import "./styles/App.css";
+import "./styles/CreateVideo.css";
+import "./styles/General.css";
 import { Fragment, useState } from "react";
 // Components
 import DisplayVideo from "./components/DisplayVideo";

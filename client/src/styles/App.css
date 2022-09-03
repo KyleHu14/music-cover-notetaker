@@ -98,59 +98,8 @@
     align-items: center;
 }
 
-/* Create Video Styling */
-.form-control {
-    font-family: "Montserrat", sans-serif;
-    font-size: 1.4rem;
-    font-weight: 500;
-    max-width: 500px;
-    margin: 2rem auto;
-    border: 2px solid red;
-    padding: 2rem;
-    border-radius: 1.1rem;
-}
 
-.form-control label {
-    padding: 1rem 0 0.5rem;
-    display: block;
-}
 
-.form-control button,
-input {
-    display: block;
-    width: 100%;
-}
-
-.form-control input {
-    border: 2px solid brown;
-    padding: 0.25rem;
-    font-size: 1.25rem;
-    border-radius: 0.5rem;
-}
-
-#create-btn {
-    font-family: "Montserrat", sans-serif;
-    width: 20%;
-    font-weight: 500;
-    font-size: 1rem;
-    border: 0;
-    background-color: rgb(70, 70, 238);
-    padding: 0.5rem;
-    color: white;
-    margin: 1rem 0;
-    cursor: pointer;
-    border-radius: 0.5rem;
-}
-
-.create-btn:hover {
-    background-color: black;
-}
-
-.warning-text {
-    color: rgb(255, 58, 58);
-    margin-top: 0.5rem;
-    font-size: 1vw;
-}
 
 .video-view {
     text-align: center;

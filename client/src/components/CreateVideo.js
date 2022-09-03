@@ -14,7 +14,6 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
     // 3. Else -> edit an existing video thru the REST api
     const onSubmitForm = async (e) => {
         e.preventDefault();
-        setFormErrors(validate(videoLink));
 
         if (Object.keys(formErrors).length === 0) {
             if (Object.keys(editVideo).length === 0) {
@@ -67,6 +66,10 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
         }
     }, [editVideo]);
 
+    useEffect(() => {
+        setFormErrors(validate(videoLink));
+    }, [videoLink]);
+
     // validates if a youtube link is correct with Regex
     // if youtube link is not valid, return an error object
     const validate = (videoLink) => {
@@ -83,27 +86,40 @@ const CreateVideo = ({ editVideo, setEditVideo }) => {
     };
 
     return (
-        <form className="form-control" onSubmit={onSubmitForm}>
-            <label htmlFor="video-link">YouTube Link</label>
-            <input
-                type="text"
-                id="video-link"
-                placeholder="https://www.youtube.com/watch?v=OyMdmzfp2Jo"
-                value={videoLink}
-                onChange={(e) => setVideoLink(e.target.value)}
-            />
-            <div className="warning-text">{formErrors.videoLink}</div>
-            <label htmlFor="video-title">Title</label>
-            <input
-                type="text"
-                id="video-title"
-                placeholder="YouTube Video Title"
-                value={videoTitle}
-                onChange={(e) => setVideoTitle(e.target.value)}
-            />
-            <button id="create-btn" type="submit">
-                {formButtonText}
-            </button>
+        <form className="create-video-form" onSubmit={onSubmitForm}>
+            {/* Form's Title */}
+            <div className="form-title">Add A New Video</div>
+            {/* Input for Video Link */}
+            <div className="link-input">
+                <div className="form-label">YouTube Link</div>
+                <input
+                    className="form-input"
+                    type="text"
+                    id="video-link"
+                    placeholder="https://www.youtube.com/watch?v=OyMdmzfp2Jo"
+                    value={videoLink}
+                    onChange={(e) => setVideoLink(e.target.value)}
+                />
+                <div className="warning-text">{formErrors.videoLink}</div>
+            </div>
+            {/* Input for Video's Title */}
+            <div className="title-input">
+                <div className="form-label">YouTube Video Title</div>
+                <input
+                    className="form-input"
+                    type="text"
+                    id="video-title"
+                    placeholder="YouTube Video Title"
+                    value={videoTitle}
+                    onChange={(e) => setVideoTitle(e.target.value)}
+                />
+            </div>
+            {/* Submit Button */}
+            <div className="btn-container">
+                <button className="create-btn" type="submit">
+                    {formButtonText}
+                </button>
+            </div>
         </form>
     );
 };
